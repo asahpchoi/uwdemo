@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import base from './airtable';
+import base, { tableName } from './airtable';
 
 const CaseListPage = () => {
   const [cases, setCases] = useState([]);
 
   useEffect(() => {
-    base('tblgPTdZZHlLDDpjW').select({
+    base(tableName).select({
       // Selecting the first 10 records in Grid view:
       maxRecords: 10,
       view: 'Grid view'

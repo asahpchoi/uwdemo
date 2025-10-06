@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 /* eslint-disable-next-line no-unused-vars */
-import base, { AirtableRefreshButton } from './airtable';
+import base, { tableName } from './airtable';
+import AirtableRefreshButton from './components/AirtableRefreshButton';
 import './App.css';
 import AirtableRecordCard from './components/AirtableRecordCard';
+import ImageUploader from './components/ImageUploader';
 
 function HomePage({ isProduction }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -77,7 +79,7 @@ function HomePage({ isProduction }) {
       setRecordId(data.id);
 
       // Fetch the Airtable record using the returned recordId
-      base('tblgPTdZZHlLDDpjW').find(data.id, (err, record) => {
+      base(tableName).find(data.id, (err, record) => {
         if (err) {
           console.error('Error fetching Airtable record:', err);
           setUploadStatus('error');
@@ -94,7 +96,7 @@ function HomePage({ isProduction }) {
 
   const handleRefresh = () => {
     if (airtableRecord && airtableRecord.id) {
-      base('tblgPTdZZHlLDDpjW').find(airtableRecord.id, (err, record) => {
+      base(tableName).find(airtableRecord.id, (err, record) => {
         if (err) {
           console.error('Refresh failed:', err);
           return;
@@ -130,40 +132,17 @@ function HomePage({ isProduction }) {
     }
   };
 
-  const ImageUploader = () => (
-    <div className="card">
-      <h2>Upload or Take a Photo</h2>
-      <div className="image-uploader">
-        <input
-          type="file"
-          accept="image/*"
-          capture="environment"
-          onChange={handleImageChange}
-          id="file-input"
-        />
-        <label htmlFor="file-input" className="file-label">
-          {selectedImage ? 'Change file' : 'Choose a file or take a picture'}
-        </label>
-        {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
-      </div>
-      {selectedImage && (
-        <div className="button-group">
-          <button onClick={() => {setSelectedImage(null); setImagePreview(null);}} className="btn btn-danger">
-            Remove
-          </button>
-          <button onClick={handleSubmit} className="btn btn-success" disabled={uploadStatus === 'uploading'}>
-            {uploadStatus === 'uploading' ? 'Uploading...' : 'Submit'}
-          </button>
-        </div>
-      )}
-      {uploadStatus === 'success' && <p className="message success-message">Photo uploaded successfully!</p>}
-      {uploadStatus === 'error' && <p className="message error-message">Upload failed. Please try again.</p>}
-    </div>
-  );
-
   return (
     <div className="home-page">
-      <ImageUploader />
+      <ImageUploader
+        selectedImage={selectedImage}
+        imagePreview={imagePreview}
+        uploadStatus={uploadStatus}
+        handleImageChange={handleImageChange}
+        setSelectedImage={setSelectedImage}
+        setImagePreview={setImagePreview}
+        handleSubmit={handleSubmit}
+      />
       <div>
         {airtableRecord ? (
           <>

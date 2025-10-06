@@ -14,10 +14,6 @@ const AirtableRecordCard = ({ record, variant = 'detail' }) => {
             <ReactMarkdown>{fields['Summary']}</ReactMarkdown>
           </div>
           <div className="grid-item">
-            <strong>Reasoning:</strong>
-            <ReactMarkdown>{fields['Reasoning']}</ReactMarkdown>
-          </div>
-          <div className="grid-item">
             <strong>Decision Notes:</strong>
             <ReactMarkdown>{fields['Decision Notes']}</ReactMarkdown>
           </div>
