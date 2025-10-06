@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 /* eslint-disable-next-line no-unused-vars */
 import base, { tableName } from './airtable';
 import AirtableRefreshButton from './components/AirtableRefreshButton';
@@ -12,6 +12,25 @@ function HomePage({ isProduction }) {
   const [uploadStatus, setUploadStatus] = useState('idle');
   const [airtableRecord, setAirtableRecord] = useState(null);
   const [recordId, setRecordId] = useState(null); // eslint-disable-line no-unused-vars
+  const [isPolling, setIsPolling] = useState(false);
+  const [isDecisionLoading, setIsDecisionLoading] = useState(false);
+  const pollingRef = useRef(null);
+
+  useEffect(() => {
+    if (airtableRecord && airtableRecord.id && !airtableRecord.fields['Decision Notes']) {
+      setIsPolling(true);
+      pollingRef.current = setInterval(() => {
+        handleRefresh();
+      }, 10000);
+    } else {
+      setIsPolling(false);
+      clearInterval(pollingRef.current);
+    }
+
+    return () => {
+      clearInterval(pollingRef.current);
+    };
+  }, [airtableRecord]);
   
 
   const webhookUrl = isProduction
@@ -99,12 +118,15 @@ function HomePage({ isProduction }) {
       base(tableName).find(airtableRecord.id, (err, record) => {
         if (err) {
           console.error('Refresh failed:', err);
+          setIsDecisionLoading(false);
           return;
         }
         setAirtableRecord(record);
+        setIsDecisionLoading(false);
       });
     } else {
       console.warn('No record available to refresh');
+      setIsDecisionLoading(false);
     }
   };
 
@@ -113,6 +135,8 @@ function HomePage({ isProduction }) {
       console.error('No record available to get decision for.');
       return;
     }
+
+    setIsDecisionLoading(true);
 
     const recordId = airtableRecord.id;
     const decisionWebhookUrl = isProduction
@@ -129,6 +153,7 @@ function HomePage({ isProduction }) {
       handleRefresh();
     } catch (error) {
       console.error('Failed to get decision:', error);
+      setIsDecisionLoading(false);
     }
   };
 
@@ -146,17 +171,12 @@ function HomePage({ isProduction }) {
       <div>
         {airtableRecord ? (
           <>
-            <AirtableRecordCard record={airtableRecord} variant="detail" />
-            {airtableRecord.fields['Summary'] && (
-              <button onClick={getDecision} className="btn btn-primary">
-                Get Decision
-              </button>
-            )}
+            <AirtableRecordCard record={airtableRecord} variant="detail" getDecision={getDecision} isDecisionLoading={isDecisionLoading} />
           </>
         ) : (
           <div>No record loaded</div>
         )}
-        <AirtableRefreshButton onRefresh={handleRefresh} />
+        {isPolling && <p className="message">Waiting for decision notes...</p>}
       </div>
     </div>
   );

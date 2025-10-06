@@ -26,11 +26,8 @@ const ImageUploader = ({
     </div>
     {selectedImage && (
       <div className="button-group">
-        <button onClick={() => {setSelectedImage(null); setImagePreview(null);}} className="btn btn-danger">
-          Remove
-        </button>
         <button onClick={handleSubmit} className="btn btn-success" disabled={uploadStatus === 'uploading'}>
-          {uploadStatus === 'uploading' ? 'Uploading...' : 'Submit'}
+          {uploadStatus === 'uploading' ? 'Uploading...' : 'Extract and Summerize'}
         </button>
       </div>
     )}
