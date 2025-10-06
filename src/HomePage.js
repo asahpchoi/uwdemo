@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import base from './airtable';
-import ReactMarkdown from 'react-markdown';
+import React, { useState } from 'react';
+/* eslint-disable-next-line no-unused-vars */
+import base, { AirtableRefreshButton } from './airtable';
 import './App.css';
 import AirtableRecordCard from './components/AirtableRecordCard';
 
@@ -9,8 +9,7 @@ function HomePage({ isProduction }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('idle');
   const [airtableRecord, setAirtableRecord] = useState(null);
-  const [recordId, setRecordId] = useState(null);
-  const [triggerStatus, setTriggerStatus] = useState('idle');
+  const [recordId, setRecordId] = useState(null); // eslint-disable-line no-unused-vars
   
 
   const webhookUrl = isProduction
@@ -27,66 +26,107 @@ function HomePage({ isProduction }) {
     }
   };
 
-  const fetchAirtableRecord = () => {
-    if (!recordId) return;
-    base('tblgPTdZZHlLDDpjW').find(recordId, (err, record) => {
-      if (err) {
-        console.error('Airtable error:', err);
-        return;
-      }
-      setAirtableRecord(record);
-    });
-  };
+  /* Update handleSubmit to check response status and handle empty responses more robustly */
 
   const handleSubmit = async () => {
     if (!selectedImage) return;
 
-    console.log('selectedImage:', selectedImage);
-
     setUploadStatus('uploading');
     const formData = new FormData();
-    formData.append('photo', selectedImage);
+    formData.append('file', selectedImage);
 
     try {
-      const url = webhookUrl;
-      console.log('url:', url);
-
-      const response = await fetch(url, {
+      const response = await fetch(webhookUrl, {
         method: 'POST',
-        body: formData,
+        body: formData
       });
 
-      console.log('response:', response);
-
-      if (response.ok) {
-        setUploadStatus('success');
-        const data = await response.json();
-        if (data.id) {
-          setRecordId(data.id);
-        }
-      } else {
+      if (!response.ok) {
+        console.error(`HTTP error! status: ${response.status} - ${response.statusText}`);
         setUploadStatus('error');
+        return;
       }
-    } catch (error) {
-      console.error('An error occurred during the upload:', error);
+
+      // Attempt to read response as text
+      const text = await response.text();
+
+      if (!text) {
+        console.warn('Empty response received');
+        setUploadStatus('error');
+        return;
+      }
+
+      let data = {};
+      try {
+        data = JSON.parse(text);
+      } catch (jsonError) {
+        console.error('JSON parse error:', jsonError);
+        setUploadStatus('error');
+        return;
+      }
+
+      console.log({data})
+
+      // Verify that recordId exists in the response
+      if (!data.id) {
+        console.error('No recordId found in response');
+        setUploadStatus('error');
+        return;
+      }
+
+      setRecordId(data.id);
+
+      // Fetch the Airtable record using the returned recordId
+      base('tblgPTdZZHlLDDpjW').find(data.id, (err, record) => {
+        if (err) {
+          console.error('Error fetching Airtable record:', err);
+          setUploadStatus('error');
+          return;
+        }
+        setAirtableRecord(record);
+        setUploadStatus('success');
+      });
+    } catch (e) {
+      console.error('Upload failed:', e);
       setUploadStatus('error');
     }
   };
 
-  const handleTrigger = async () => {
-    if (!recordId) return;
+  const handleRefresh = () => {
+    if (airtableRecord && airtableRecord.id) {
+      base('tblgPTdZZHlLDDpjW').find(airtableRecord.id, (err, record) => {
+        if (err) {
+          console.error('Refresh failed:', err);
+          return;
+        }
+        setAirtableRecord(record);
+      });
+    } else {
+      console.warn('No record available to refresh');
+    }
+  };
 
-    setTriggerStatus('triggering');
+  const getDecision = async () => {
+    if (!airtableRecord || !airtableRecord.id) {
+      console.error('No record available to get decision for.');
+      return;
+    }
+
+    const recordId = airtableRecord.id;
+    const decisionWebhookUrl = isProduction
+      ? `https://demo.asachoi.com/webhook/aa5e0815-ad96-4fce-92b2-f4d4a5e3569d?recordid=${recordId}`
+      : `https://demo.asachoi.com/webhook-test/aa5e0815-ad96-4fce-92b2-f4d4a5e3569d?recordid=${recordId}`;
+
     try {
-      const url = webhookUrl;
-      const response = await fetch(`${url}?recordid=${recordId}`);
-      if (response.ok) {
-        setTriggerStatus('success');
-      } else {
-        setTriggerStatus('error');
+      const response = await fetch(decisionWebhookUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      console.log('Decision request successful');
+      // Optionally, refresh the record to show updated data
+      handleRefresh();
     } catch (error) {
-      setTriggerStatus('error');
+      console.error('Failed to get decision:', error);
     }
   };
 
@@ -124,7 +164,21 @@ function HomePage({ isProduction }) {
   return (
     <div className="home-page">
       <ImageUploader />
-      {uploadStatus === 'success' && airtableRecord && <AirtableRecordCard record={airtableRecord} variant="detail" />}
+      <div>
+        {airtableRecord ? (
+          <>
+            <AirtableRecordCard record={airtableRecord} variant="detail" />
+            {airtableRecord.fields['Summary'] && (
+              <button onClick={getDecision} className="btn btn-primary">
+                Get Decision
+              </button>
+            )}
+          </>
+        ) : (
+          <div>No record loaded</div>
+        )}
+        <AirtableRefreshButton onRefresh={handleRefresh} />
+      </div>
     </div>
   );
 }
