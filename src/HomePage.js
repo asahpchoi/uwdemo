@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Airtable from 'airtable';
+import base from './airtable';
 import ReactMarkdown from 'react-markdown';
 import './App.css';
-
-// Configure Airtable
-const apiKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-const base = new Airtable({ apiKey }).base('app5SLFPvCnsFIsXt');
+import AirtableRecordCard from './components/AirtableRecordCard';
 
 function HomePage({ isProduction }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -124,72 +121,11 @@ function HomePage({ isProduction }) {
     </div>
   );
 
-  const AirtableData = () => {
-    const [showReasoning, setShowReasoning] = useState(false);
-
-    useEffect(() => {
-      let interval;
-      if (uploadStatus === 'success') {
-        interval = setInterval(() => {
-          fetchAirtableRecord();
-        }, 10000);
-      }
-
-      if (airtableRecord && airtableRecord.get('Summary')) {
-        clearInterval(interval);
-      }
-
-      return () => clearInterval(interval);
-    });
-
-    return (
-      <div className="card">
-        <h2>Results</h2>
-        <p>Record ID: {recordId}</p>
-        <div className="button-group">
-          <button onClick={fetchAirtableRecord} className="btn btn-primary">Fetch Data</button>
-          {airtableRecord && airtableRecord.get('Summary') && (
-            <button onClick={handleTrigger} className="btn btn-primary" disabled={triggerStatus === 'triggering'}>
-              {triggerStatus === 'triggering' ? 'Making decision...' : 'Make suggestive decision'}
-            </button>
-          )}
-        </div>
-        {triggerStatus === 'success' && <p className="message success-message">Triggered successfully!</p>}
-        {triggerStatus === 'error' && <p className="message error-message">Trigger failed. Please try again.</p>}
-        {airtableRecord && (
-          <div className="airtable-record">
-            <ul>
-              <li>
-                <strong>Summary:</strong> <ReactMarkdown>{airtableRecord.get('Summary')}</ReactMarkdown>
-              </li>
-              {/* <li>
-                <strong>Application Name:</strong> {airtableRecord.get('Application Name')}
-              </li> */}
-              <li>
-                <label className="reasoning-label">
-                  <input type="checkbox" checked={showReasoning} onChange={() => setShowReasoning(!showReasoning)} />
-                  <strong>Reasoning</strong>
-                </label>
-                {showReasoning && <div className="reasoning-content">{airtableRecord.get('Reasoning')}</div>}
-              </li>
-              <li>
-                <strong>Decision Notes:</strong> <ReactMarkdown>{airtableRecord.get('Decision Notes')}</ReactMarkdown>
-              </li>
-              {/* <li>
-                <strong>Decision Date:</strong> {airtableRecord.get('Decision Date')}
-              </li> */}
-            </ul>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-    return (
-    <>
+  return (
+    <div className="home-page">
       <ImageUploader />
-      {uploadStatus === 'success' && <AirtableData />}
-    </>
+      {uploadStatus === 'success' && airtableRecord && <AirtableRecordCard record={airtableRecord} variant="detail" />}
+    </div>
   );
 }
 

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Airtable from 'airtable';
-
-const apiKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-const base = new Airtable({ apiKey }).base('app5SLFPvCnsFIsXt');
+import base from './airtable';
 
 const CaseListPage = () => {
   const [cases, setCases] = useState([]);
