@@ -7,14 +7,14 @@ import './App.css';
 const apiKey = process.env.REACT_APP_AIRTABLE_API_KEY;
 const base = new Airtable({ apiKey }).base('app5SLFPvCnsFIsXt');
 
-function HomePage() {
+function HomePage({ isProduction }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('idle');
   const [airtableRecord, setAirtableRecord] = useState(null);
   const [recordId, setRecordId] = useState(null);
   const [triggerStatus, setTriggerStatus] = useState('idle');
-  const [isProduction, setIsProduction] = useState(false);
+  
 
   const webhookUrl = isProduction
     ? process.env.REACT_APP_PRODUCTION_URL
@@ -185,22 +185,11 @@ function HomePage() {
     );
   }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Underwriting Demo</h1>
-        <div className="env-toggle">
-          <label>
-            <input type="checkbox" checked={isProduction} onChange={() => setIsProduction(!isProduction)} />
-            Use Production URL
-          </label>
-        </div>
-      </header>
-      <main className="container">
-        <ImageUploader />
-        {uploadStatus === 'success' && <AirtableData />}
-      </main>
-    </div>
+    return (
+    <>
+      <ImageUploader />
+      {uploadStatus === 'success' && <AirtableData />}
+    </>
   );
 }
 
