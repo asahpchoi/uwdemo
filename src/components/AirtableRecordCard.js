@@ -1,21 +1,34 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import ProgressBar from './ProgressBar';
+import JsonDisplay from './JsonDisplay';
+
 const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisionLoading }) => {
   if (!record) return null;
   const fields = record.fields || {};
+
+  const renderSummary = () => {
+    if (!fields['Summary']) {
+      return <ProgressBar />;
+    }
+    try {
+      const summaryJson = JSON.parse(fields['Summary']);
+      return <JsonDisplay json={summaryJson} />;
+    } catch (error) {
+      console.error("Failed to parse Summary JSON:", error);
+      return <ReactMarkdown>{fields['Summary']}</ReactMarkdown>;
+    }
+  };
+
   return (
     <div className="card">
-      <h1>{fields['Policy No'] || record.id}</h1>
+      
       {variant === 'detail' ? (
         <div className="airtable-record-grid">
           <div className="grid-item">
             <strong>Summary:</strong>
-            {fields['Summary'] ? (
-              <ReactMarkdown>{fields['Summary']}</ReactMarkdown>
-            ) : (
-              <div className="spinner"></div>
-            )}
+            {renderSummary()}
           </div>
           <div className="grid-item">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -27,12 +40,12 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
               )}
             </div>
             <ReactMarkdown>{fields['Decision Notes']}</ReactMarkdown>
-            {isDecisionLoading && !fields['Decision Notes'] && <div className="spinner"></div>}
+            {isDecisionLoading && !fields['Decision Notes'] && <ProgressBar />}
           </div>
         </div>
       ) : (
         <ul className="airtable-record">
-          <li><strong>Summary:</strong> <ReactMarkdown>{fields['Summary']}</ReactMarkdown></li>
+          <li><strong>Summary:</strong> {renderSummary()}</li>
         </ul>
       )}
     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 /* eslint-disable-next-line no-unused-vars */
-import base, { tableName } from './airtable';
+import base, { tableName } from './api/airtable';
+import { findCase } from './services/cases';
 import AirtableRefreshButton from './components/AirtableRefreshButton';
 import './App.css';
 import AirtableRecordCard from './components/AirtableRecordCard';
@@ -98,15 +99,15 @@ function HomePage({ isProduction }) {
       setRecordId(data.id);
 
       // Fetch the Airtable record using the returned recordId
-      base(tableName).find(data.id, (err, record) => {
-        if (err) {
+      findCase(data.id)
+        .then(record => {
+          setAirtableRecord(record);
+          setUploadStatus('success');
+        })
+        .catch(err => {
           console.error('Error fetching Airtable record:', err);
           setUploadStatus('error');
-          return;
-        }
-        setAirtableRecord(record);
-        setUploadStatus('success');
-      });
+        });
     } catch (e) {
       console.error('Upload failed:', e);
       setUploadStatus('error');
@@ -115,15 +116,16 @@ function HomePage({ isProduction }) {
 
   const handleRefresh = () => {
     if (airtableRecord && airtableRecord.id) {
-      base(tableName).find(airtableRecord.id, (err, record) => {
-        if (err) {
+      findCase(airtableRecord.id)
+        .then(record => {
+          setAirtableRecord(record);
+        })
+        .catch(err => {
           console.error('Refresh failed:', err);
+        })
+        .finally(() => {
           setIsDecisionLoading(false);
-          return;
-        }
-        setAirtableRecord(record);
-        setIsDecisionLoading(false);
-      });
+        });
     } else {
       console.warn('No record available to refresh');
       setIsDecisionLoading(false);
@@ -140,8 +142,10 @@ function HomePage({ isProduction }) {
 
     const recordId = airtableRecord.id;
     const decisionWebhookUrl = isProduction
-      ? `https://demo.asachoi.com/webhook/aa5e0815-ad96-4fce-92b2-f4d4a5e3569d?recordid=${recordId}`
-      : `https://demo.asachoi.com/webhook-test/aa5e0815-ad96-4fce-92b2-f4d4a5e3569d?recordid=${recordId}`;
+      ? `${process.env.REACT_APP_DECISION_WEBHOOK_URL_PRODUCTION}?recordid=${recordId}`
+      : `${process.env.REACT_APP_DECISION_WEBHOOK_URL_DEVELOPMENT}?recordid=${recordId}`;
+
+    console.log('Decision Request URL:', decisionWebhookUrl);
 
     try {
       const response = await fetch(decisionWebhookUrl);
@@ -176,7 +180,7 @@ function HomePage({ isProduction }) {
         ) : (
           <div>No record loaded</div>
         )}
-        {isPolling && <p className="message">Waiting for decision notes...</p>}
+        
       </div>
     </div>
   );

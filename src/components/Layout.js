@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ isProduction, toggleEnv }) => (
   <header className="App-header">
-    <h1>
+    <div className="logo">
       <Link to="/">Underwriting Demo</Link>
+    </div>
+    <nav className="App-nav">
       <Link to="/cases">Case List</Link>
-    </h1>
+    </nav>
     <div className="env-toggle">
       <label>
         <input

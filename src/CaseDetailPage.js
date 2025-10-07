@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import AirtableRecordCard from './components/AirtableRecordCard';
-import base, { tableName } from './airtable';
+import { findCase } from './services/cases';
+import useAirtable from './hooks/useAirtable';
 
 const CaseDetailPage = () => {
   const { id } = useParams();
-  const [caseItem, setCaseItem] = useState(null);
+  const { data: caseItem, isLoading } = useAirtable(findCase, id);
 
-  useEffect(() => {
-    base(tableName).find(id, function(err, record) {
-      if (err) { console.error(err); return; }
-      setCaseItem(record);
-    });
-  }, [id]);
-
-  if (!caseItem) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
