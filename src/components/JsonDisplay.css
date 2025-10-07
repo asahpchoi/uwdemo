@@ -1,0 +1,34 @@
+.json-display {
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  font-size: 1em;
+  padding: 10px;
+}
+
+.json-display ul {
+  list-style-type: none;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.json-display li {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.json-key {
+  color: #1976d2; /* Corporate blue */
+  font-weight: 600;
+}
+
+.json-string {
+  color: #222; /* Main text color */
+}
+
+.json-number {
+  color: #D35400; /* Corporate orange for numbers */
+}
+
+.json-boolean {
+  color: #222;
+  font-style: italic;
+}
