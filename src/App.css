@@ -164,16 +164,19 @@ input[type="file"] {
 }
 
 .App-nav a {
-  color: white;
+  color: #222; /* Change to a dark color */
   text-decoration: none;
   margin: 0 15px;
-  font-size: 1rem;
+  font-size: 1.1rem; /* Slightly larger font */
   font-weight: 500;
-  transition: color 0.3s ease;
+  padding: 10px 15px; /* Add some padding */
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .App-nav a:hover {
-  color: #f2f2f2;
+  background-color: #f7f8fa; /* Subtle background on hover */
+  color: #1976d2; /* Blue color on hover */
 }
 
 .card h2 {
@@ -412,8 +415,6 @@ button:active {
   transform: scale(0.98);
 }
 
-
-
 .airtable-record li > strong {
   display: inline-block;
   min-width: 120px;
@@ -429,4 +430,60 @@ button:active {
 
 .card, .airtable-record, .airtable-record li, .airtable-record li > *, .airtable-record li > *:not(strong) {
   text-align: left !important;
+}
+
+.case-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.case-list-table th, .case-list-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.case-list-table th {
+  background-color: #f7f8fa;
+  font-weight: 600;
+  color: #222;
+}
+
+.case-list-table tbody tr:hover {
+  background-color: #f7f8fa;
+}
+
+.case-list-table a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.case-list-table a:hover {
+  text-decoration: underline;
+}
+
+.case-details-container {
+  width: 100%;
+}
+
+.case-details-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }

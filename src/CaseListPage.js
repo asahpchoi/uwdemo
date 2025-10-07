@@ -13,14 +13,22 @@ const CaseListPage = () => {
   return (
     <div className="card">
       <h1>Case List</h1>
-      <ul className="airtable-record">
-        {cases && cases.map(c => (
-          <li key={c.id}>
-            <Link to={`/case/${c.id}`}>{c.fields['Policy No'] || c.id}</Link>
-            <p>{c.fields['Summary'] && c.fields['Summary'].substring(0, 100)}...</p>
-          </li>
-        ))}
-      </ul>
+      <table className="case-list-table">
+        <thead>
+          <tr>
+            <th>Policy No</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cases && cases.map(c => (
+            <tr key={c.id}>
+              <td><Link to={`/case/${c.id}`}>{c.fields['Policy No'] || c.id}</Link></td>
+              <td>{c.fields['Summary'] && c.fields['Summary'].substring(0, 100)}...</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

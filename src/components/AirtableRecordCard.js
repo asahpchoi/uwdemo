@@ -36,30 +36,24 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
 
   return (
     <div className="card">
-    
-      {variant === 'detail' ? (
-        <div className="airtable-record-grid">
-          <div className="grid-item">
-            <strong>Summary:</strong>
-            {renderSummary()}
-          </div>
-          <div className="grid-item">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <strong>Decision Notes:</strong>
-              {getDecision && (
-                <button onClick={getDecision} className="btn btn-primary">
-                  Get Decision
-                </button>
-              )}
-            </div>
-            {renderDecisionNotes()}
-          </div>
+      <h1>{fields['Policy No'] || record.id}</h1>
+      <div className="case-details-container">
+        <div className="case-details-section">
+          <h2 className="section-title">Summary</h2>
+          {renderSummary()}
         </div>
-      ) : (
-        <ul className="airtable-record">
-          <li><strong>Summary:</strong> {renderSummary()}</li>
-        </ul>
-      )}
+        <div className="case-details-section">
+          <div className="section-header">
+            <h2 className="section-title">Decision Notes</h2>
+            {getDecision && (
+              <button onClick={getDecision} className="btn btn-primary">
+                Get Decision
+              </button>
+            )}
+          </div>
+          {renderDecisionNotes()}
+        </div>
+      </div>
     </div>
   );
 };
