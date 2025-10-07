@@ -4,7 +4,7 @@ import './JsonDisplay.css';
 const JsonDisplay = ({ json }) => {
   const renderValue = (value) => {
     if (typeof value === 'string') {
-      return <span className="json-string">"{value}"</span>;
+      return <span className="json-string">{value}</span>;
     }
     if (typeof value === 'number') {
       return <span className="json-number">{value}</span>;
