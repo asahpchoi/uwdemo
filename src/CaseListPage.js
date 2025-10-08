@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { fetchCases } from './services/cases';
 import useAirtable from './hooks/useAirtable';
 
-const CaseListPage = () => {
-  const { data: cases, isLoading } = useAirtable(fetchCases);
+const CaseListPage = ({ isProduction }) => {
+  const { data: cases, isLoading } = useAirtable(() => fetchCases());
 
   if (isLoading) {
     return <div>Loading...</div>;

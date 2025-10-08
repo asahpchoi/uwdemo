@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-/* eslint-disable-next-line no-unused-vars */
-import base, { tableName } from './api/airtable';
+
 import { findCase } from './services/cases';
 import AirtableRefreshButton from './components/AirtableRefreshButton';
 import './App.css';
@@ -89,17 +88,20 @@ function HomePage({ isProduction }) {
 
       console.log({data})
 
+      const recordData = data.data || data;
+
       // Verify that recordId exists in the response
-      if (!data.id) {
+      if (!recordData.id) {
         console.error('No recordId found in response');
         setUploadStatus('error');
         return;
       }
 
-      setRecordId(data.id);
+      const recordId = recordData.id;
+      setRecordId(recordId);
 
       // Fetch the Airtable record using the returned recordId
-      findCase(data.id)
+      findCase(recordId)
         .then(record => {
           setAirtableRecord(record);
           setUploadStatus('success');

@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-const useAirtable = (fetcher, params) => {
+const useAirtable = (fetcher) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const memoizedFetcher = useCallback(fetcher, [fetcher]);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const result = await fetcher(params);
+        const result = await memoizedFetcher();
         setData(result);
       } catch (err) {
         setError(err);
@@ -20,7 +22,7 @@ const useAirtable = (fetcher, params) => {
     };
 
     fetchData();
-  }, [fetcher, params]);
+  }, [memoizedFetcher]);
 
   return { data, isLoading, error };
 };

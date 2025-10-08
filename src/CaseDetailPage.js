@@ -4,9 +4,9 @@ import AirtableRecordCard from './components/AirtableRecordCard';
 import { findCase } from './services/cases';
 import useAirtable from './hooks/useAirtable';
 
-const CaseDetailPage = () => {
+const CaseDetailPage = ({ isProduction }) => {
   const { id } = useParams();
-  const { data: caseItem, isLoading } = useAirtable(findCase, id);
+  const { data: caseItem, isLoading } = useAirtable(() => findCase(id));
 
   if (isLoading) {
     return <div>Loading...</div>;

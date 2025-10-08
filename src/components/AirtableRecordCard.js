@@ -22,11 +22,11 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
   };
 
   const renderDecisionNotes = () => {
-    if (!fields['Decision Notes']) {
+    if (!fields['Decision']) {
       return isDecisionLoading ? <ProgressBar /> : null;
     }
     try {
-      const decisionJson = JSON.parse(fields['Decision Notes']);
+      const decisionJson = JSON.parse(fields['Decision']);
       return <JsonDisplay json={decisionJson} />;
     } catch (error) {
       console.error("Failed to parse Decision Notes JSON:", error);
@@ -35,23 +35,19 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
   };
 
   return (
-    <div>
-      <div className="container-fluid">
-        <div className="mb-4">
-          <h2 className="h4 border-bottom pb-2 mb-3">Summary</h2>
-          {renderSummary()}
-        </div>
-        <div className="mb-4">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2 className="h4 border-bottom pb-2">Decision Notes</h2>
-            {getDecision && (
-              <button onClick={getDecision} className="btn btn-primary btn-sm">
-                Get Decision
-              </button>
-            )}
-          </div>
-          {renderDecisionNotes()}
-        </div>
+    <div className="airtable-record-grid">
+      <div className="grid-item card">
+        <strong>Summary:</strong>
+        {renderSummary()}
+      </div>
+      <div className="grid-item card">
+        <strong>Decision Notes:</strong>
+                {getDecision && !fields['Decision'] && (
+          <button onClick={getDecision} className="btn btn-primary">
+            Get Decision
+          </button>
+        )}
+        {renderDecisionNotes()}
       </div>
     </div>
   );

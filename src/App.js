@@ -17,8 +17,8 @@ function App() {
           path="/"
           element={<HomePage isProduction={isProduction} />}
         />
-        <Route path="/cases" element={<CaseListPage />} />
-        <Route path="/case/:id" element={<CaseDetailPage />} />
+        <Route path="/cases" element={<CaseListPage isProduction={isProduction} />} />
+        <Route path="/case/:id" element={<CaseDetailPage isProduction={isProduction} />} />
       </Routes>
     </Layout>
   );
