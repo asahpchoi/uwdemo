@@ -11,10 +11,10 @@ const CaseListPage = () => {
   }
 
   return (
-    <div className="card">
+    <div className="card p-3">
       <h1>Case List</h1>
-      <table className="case-list-table">
-        <thead>
+      <table className="table table-striped table-hover">
+        <thead className="thead-dark">
           <tr>
             <th>Policy No</th>
             <th>Summary</th>

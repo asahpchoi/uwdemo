@@ -6,52 +6,6 @@ body {
   font-size: 18px;
 }
 
-.App {
-  text-align: center;
-}
-
-.App-header {
-  width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 24px 32px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.App-header h1 {
-  font-size: 2.2rem;
-  font-weight: 600;
-  margin: 0;
-  display: flex;
-  gap: 32px;
-}
-
-.App-header a {
-  color: #1976d2;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-.App-header a:hover {
-  color: #0d47a1;
-}
-
-.env-toggle {
-  font-size: 1rem;
-  margin-left: 24px;
-}
-
-.container {
-  width: 100vw;
-  max-width: 100vw;
-  margin: 0;
-  padding: 0 2vw;
-  box-sizing: border-box;
-}
-
 .home-page {
   width: 100%;
   padding: 24px;
@@ -61,19 +15,6 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 
-.card {
-  width: 100%;
-  max-width: 98vw;
-  margin: 32px auto;
-  padding: 2vw;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  box-sizing: border-box;
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-}
 
 .airtable-record {
   list-style: none;
@@ -86,41 +27,6 @@ body {
   text-align: left;
 }
 
-button {
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 22px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 8px;
-}
-button:hover {
-  background: #1565c0;
-}
-
-input[type="file"] {
-  font-size: 1rem;
-  margin-bottom: 16px;
-}
-
-@media (max-width: 768px) {
-  .App-header, .container, .home-page, .card {
-    padding: 12px;
-  }
-  .container {
-    margin: 12px auto;
-  }
-  .App-header h1 {
-    font-size: 1.3rem;
-    gap: 16px;
-  }
-}
-
-/* Two-column layout for summary and decision sections */
 .summary-decision-row {
   display: flex;
   flex-direction: row;
@@ -135,161 +41,12 @@ input[type="file"] {
 }
 
 @media (max-width: 900px) {
-  .container {
-    padding: 0 1vw;
-  }
-  .card {
-    padding: 3vw 2vw;
-    margin: 16px auto;
-  }
   .summary-decision-row {
     flex-direction: column;
     gap: 0;
   }
 }
 
-/* Ensure top alignment and full width for cards */
-.card {
-  width: 100%;
-  max-width: 98vw;
-  margin: 32px auto;
-  padding: 2vw;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  box-sizing: border-box;
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-}
-
-.App-nav a {
-  color: #222; /* Change to a dark color */
-  text-decoration: none;
-  margin: 0 15px;
-  font-size: 1.1rem; /* Slightly larger font */
-  font-weight: 500;
-  padding: 10px 15px; /* Add some padding */
-  border-radius: 8px; /* Rounded corners */
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.App-nav a:hover {
-  background-color: #f7f8fa; /* Subtle background on hover */
-  color: #1976d2; /* Blue color on hover */
-}
-
-.card h2 {
-  margin-top: 0;
-  font-size: 1.75rem;
-  color: #D35400;
-  margin-bottom: 25px;
-  font-weight: 600;
-}
-
-.image-uploader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.image-preview {
-  width: 100%;
-  max-width: 350px;
-  height: auto;
-  margin-top: 25px;
-  border-radius: 12px;
-  border: 2px dashed #e9ecef;
-  padding: 10px;
-}
-
-.file-label {
-  background-color: #D35400;
-  color: white;
-  padding: 14px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 15px;
-  display: inline-block;
-  font-weight: 500;
-}
-
-.file-label:hover {
-  background-color: #A04000;
-}
-
-.button-group {
-  display: flex;
-  gap: 15px;
-  margin-top: 25px;
-  justify-content: center;
-}
-
-.btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  background-color: #D35400;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #A04000;
-}
-
-.btn-danger {
-  background-color: #c82333;
-  color: white;
-}
-
-.btn-danger:hover {
-  background-color: #a81d2a;
-}
-
-.btn-success {
-  background-color: #218838;
-  color: white;
-}
-
-.btn-success:hover {
-  background-color: #1e7e34;
-}
-
-.btn:disabled {
-  background-color: #adb5bd;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.message {
-  margin-top: 20px;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.success-message {
-  color: #218838;
-}
-
-.error-message {
-  color: #c82333;
-}
 
 .airtable-record ul {
   list-style: none;
@@ -309,110 +66,10 @@ input[type="file"] {
   font-weight: 600;
 }
 
-.reasoning-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.reasoning-label input {
-  margin-right: 12px;
-}
-
-.reasoning-content {
-  margin-top: 15px;
-  padding: 15px;
-  background-color: #e9ecef;
-  border-radius: 8px;
-  border: 1px solid #dae0e5;
-}
-
-input[type="file"] {
-  display: none;
-}
-
-.toggle-switch {
-  display: flex;
-  align-items: center;
-}
-
-.toggle-switch label {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 28px;
-  margin: 0 10px;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 28px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #D35400;
-}
-
-input:checked + .slider:before {
-  transform: translateX(22px);
-}
-
-.env-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.env-toggle label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.env-toggle input {
-  margin-right: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .App-header, .container, .home-page, .card {
-    padding: 10px;
-  }
-}
 .airtable-record-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
-}
-
-button:active {
-  transform: scale(0.98);
 }
 
 .airtable-record li > strong {
@@ -428,7 +85,7 @@ button:active {
   white-space: pre-line;
 }
 
-.card, .airtable-record, .airtable-record li, .airtable-record li > *, .airtable-record li > *:not(strong) {
+.airtable-record, .airtable-record li, .airtable-record li > *, .airtable-record li > *:not(strong) {
   text-align: left !important;
 }
 

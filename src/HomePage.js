@@ -116,19 +116,16 @@ function HomePage({ isProduction }) {
 
   const handleRefresh = () => {
     if (airtableRecord && airtableRecord.id) {
-      findCase(airtableRecord.id)
+      return findCase(airtableRecord.id)
         .then(record => {
           setAirtableRecord(record);
         })
         .catch(err => {
           console.error('Refresh failed:', err);
-        })
-        .finally(() => {
-          setIsDecisionLoading(false);
         });
     } else {
       console.warn('No record available to refresh');
-      setIsDecisionLoading(false);
+      return Promise.resolve();
     }
   };
 
@@ -154,33 +151,35 @@ function HomePage({ isProduction }) {
       }
       console.log('Decision request successful');
       // Optionally, refresh the record to show updated data
-      handleRefresh();
+      await handleRefresh();
     } catch (error) {
       console.error('Failed to get decision:', error);
+    } finally {
       setIsDecisionLoading(false);
     }
   };
 
   return (
-    <div className="home-page">
-      <ImageUploader
-        selectedImage={selectedImage}
-        imagePreview={imagePreview}
-        uploadStatus={uploadStatus}
-        handleImageChange={handleImageChange}
-        setSelectedImage={setSelectedImage}
-        setImagePreview={setImagePreview}
-        handleSubmit={handleSubmit}
-      />
-      <div>
-        {airtableRecord ? (
-          <>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <ImageUploader
+            selectedImage={selectedImage}
+            imagePreview={imagePreview}
+            uploadStatus={uploadStatus}
+            handleImageChange={handleImageChange}
+            setSelectedImage={setSelectedImage}
+            setImagePreview={setImagePreview}
+            handleSubmit={handleSubmit}
+          />
+        </div>
+        <div className="col-md-6">
+          {airtableRecord ? (
             <AirtableRecordCard record={airtableRecord} variant="detail" getDecision={getDecision} isDecisionLoading={isDecisionLoading} />
-          </>
-        ) : (
-          <div>No record loaded</div>
-        )}
-        
+          ) : (
+            <div className="card p-3">No record loaded</div>
+          )}
+        </div>
       </div>
     </div>
   );
