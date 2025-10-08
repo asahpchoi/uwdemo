@@ -9,30 +9,31 @@ const ImageUploader = ({
   setImagePreview,
   handleSubmit,
 }) => (
-  <div className="card">
-    <h2>Upload or Take a Photo</h2>
-    <div className="image-uploader">
+  <div className="card p-3">
+    <h2 className="card-title">Upload or Take a Photo</h2>
+    <div className="d-flex flex-column align-items-center">
       <input
         type="file"
         accept="image/*"
         capture="environment"
         onChange={handleImageChange}
         id="file-input"
+        className="d-none"
       />
-      <label htmlFor="file-input" className="file-label">
+      <label htmlFor="file-input" className="btn btn-primary">
         {selectedImage ? 'Change file' : 'Choose a file or take a picture'}
       </label>
-      {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
+      {imagePreview && <img src={imagePreview} alt="Preview" className="img-thumbnail mt-3" />}
     </div>
     {selectedImage && (
-      <div className="button-group">
+      <div className="d-grid gap-2 mt-3">
         <button onClick={handleSubmit} className="btn btn-success" disabled={uploadStatus === 'uploading'}>
           {uploadStatus === 'uploading' ? 'Uploading...' : 'Extract and Summerize'}
         </button>
       </div>
     )}
-    {uploadStatus === 'success' && <p className="message success-message">Photo uploaded successfully!</p>}
-    {uploadStatus === 'error' && <p className="message error-message">Upload failed. Please try again.</p>}
+    {uploadStatus === 'success' && <div className="alert alert-success mt-3" role="alert">Photo uploaded successfully!</div>}
+    {uploadStatus === 'error' && <div className="alert alert-danger mt-3" role="alert">Upload failed. Please try again.</div>}
   </div>
 );
 

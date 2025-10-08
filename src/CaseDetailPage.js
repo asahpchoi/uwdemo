@@ -13,7 +13,10 @@ const CaseDetailPage = () => {
   }
 
   return (
-    <AirtableRecordCard record={caseItem} variant="detail" />
+    <div className="container">
+      <h1>Case Details</h1>
+      <AirtableRecordCard record={caseItem} variant="detail" />
+    </div>
   );
 };
 

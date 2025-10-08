@@ -35,18 +35,17 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
   };
 
   return (
-    <div className="card">
-      <h1>{fields['Policy No'] || record.id}</h1>
-      <div className="case-details-container">
-        <div className="case-details-section">
-          <h2 className="section-title">Summary</h2>
+    <div>
+      <div className="container-fluid">
+        <div className="mb-4">
+          <h2 className="h4 border-bottom pb-2 mb-3">Summary</h2>
           {renderSummary()}
         </div>
-        <div className="case-details-section">
-          <div className="section-header">
-            <h2 className="section-title">Decision Notes</h2>
+        <div className="mb-4">
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h2 className="h4 border-bottom pb-2">Decision Notes</h2>
             {getDecision && (
-              <button onClick={getDecision} className="btn btn-primary">
+              <button onClick={getDecision} className="btn btn-primary btn-sm">
                 Get Decision
               </button>
             )}
