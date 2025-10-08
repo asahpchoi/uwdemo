@@ -33,7 +33,7 @@ const Header = ({ isProduction, toggleEnv }) => (
 const Layout = ({ children, isProduction, toggleEnv }) => (
   <div>
     <Header isProduction={isProduction} toggleEnv={toggleEnv} />
-    <div className="container mt-4">
+    <div className="container-fluid mt-4" style={{width: '95%', margin: '0 auto'}}>
       {children}
     </div>
   </div>

@@ -40,7 +40,7 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
         <strong>Summary:</strong>
         {renderSummary()}
       </div>
-      <div className="grid-item card">
+      {fields['Summary'] && <div className="grid-item card">
         <strong>Decision Notes:</strong>
                 {getDecision && !fields['Decision'] && (
           <button onClick={getDecision} className="btn btn-primary">
@@ -48,7 +48,7 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
           </button>
         )}
         {renderDecisionNotes()}
-      </div>
+      </div>}
     </div>
   );
 };
