@@ -9,8 +9,8 @@ const ImageUploader = ({
   setImagePreview,
   handleSubmit,
 }) => (
-  <div className="card p-3">
-    <h2 className="card-title">Upload or Take a Photo</h2>
+  <div className="card p-4">
+    <h2 className="card-title mb-4">Upload or Take a Photo</h2>
     <div className="d-flex flex-column align-items-center">
       <input
         type="file"

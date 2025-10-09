@@ -164,7 +164,7 @@ function HomePage({ isProduction }) {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-12">
           <ImageUploader
             selectedImage={selectedImage}
             imagePreview={imagePreview}
@@ -175,7 +175,9 @@ function HomePage({ isProduction }) {
             handleSubmit={handleSubmit}
           />
         </div>
-        <div className="col-md-6">
+      </div>
+      <div className="row mt-5">
+        <div className="col-md-12">
           {airtableRecord ? (
             <AirtableRecordCard record={airtableRecord} variant="detail" getDecision={getDecision} isDecisionLoading={isDecisionLoading} />
           ) : (

@@ -21,7 +21,11 @@ export const findCase = async (id) => {
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const responseData = await response.json();
+    const text = await response.text();
+    if (!text) {
+        return { id: id, fields: {} };
+    }
+    const responseData = JSON.parse(text);
     const data = responseData.data || responseData;
     return { id: id, fields: data };
 };

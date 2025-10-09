@@ -29,19 +29,19 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
       const decisionJson = JSON.parse(fields['Decision']);
       return <JsonDisplay json={decisionJson} />;
     } catch (error) {
-      console.error("Failed to parse Decision Notes JSON:", error);
-      return <ReactMarkdown>{fields['Decision Notes']}</ReactMarkdown>;
+      console.error("Failed to parse Suggestive Decision JSON:", error);
+      return <ReactMarkdown>{fields['Decision']}</ReactMarkdown>;
     }
   };
 
   return (
     <div className="airtable-record-grid">
-      <div className="grid-item card">
+      <div className="grid-item card p-4">
         <strong>Summary:</strong>
         {renderSummary()}
       </div>
-      {fields['Summary'] && <div className="grid-item card">
-        <strong>Decision Notes:</strong>
+      {fields['Summary'] && <div className="grid-item card p-4">
+        <strong>Suggestive Decision:</strong>
                 {getDecision && !fields['Decision'] && (
           <button onClick={getDecision} className="btn btn-primary">
             Get Decision
