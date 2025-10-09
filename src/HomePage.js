@@ -17,7 +17,7 @@ function HomePage({ isProduction }) {
   const pollingRef = useRef(null);
 
   useEffect(() => {
-    if (airtableRecord && airtableRecord.id && !airtableRecord.fields['Decision Notes']) {
+    if (airtableRecord && airtableRecord.id && !airtableRecord.fields['Decision']) {
       setIsPolling(true);
       pollingRef.current = setInterval(() => {
         handleRefresh();

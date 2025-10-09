@@ -4,7 +4,7 @@ import { fetchCases } from './services/cases';
 import useAirtable from './hooks/useAirtable';
 
 const CaseListPage = ({ isProduction }) => {
-  const { data: cases, isLoading } = useAirtable(() => fetchCases());
+  const { data: cases, isLoading } = useAirtable(fetchCases);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -23,7 +23,7 @@ const CaseListPage = ({ isProduction }) => {
         <tbody>
           {cases && cases.map(c => (
             <tr key={c.id}>
-              <td><Link to={`/case/${c.id}`}>{c.fields['Policy No'] || c.id}</Link></td>
+              <td><Link to={`/case/${c.id}`}>{c.fields['PolicyNo'] || c.id}</Link></td>
               <td>{c.fields['Summary'] && c.fields['Summary'].substring(0, 100)}...</td>
             </tr>
           ))}
