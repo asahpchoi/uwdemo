@@ -20,10 +20,10 @@ const Header = ({ isProduction, toggleEnv }) => (
             type="checkbox"
             role="switch"
             id="flexSwitchCheckDefault"
-            checked={isProduction}
+            checked={!isProduction}
             onChange={toggleEnv}
           />
-          <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Use Production URL</label>
+          <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Test Mode</label>
         </div>
       </div>
     </div>

@@ -24,7 +24,16 @@ const CaseListPage = ({ isProduction }) => {
           {cases && cases.map(c => (
             <tr key={c.id}>
               <td><Link to={`/case/${c.id}`}>{c.fields['PolicyNo'] || c.id}</Link></td>
-              <td>{c.fields['Summary'] && c.fields['Summary'].substring(0, 100)}...</td>
+              <td>
+                {c.fields['Summary'] && (() => {
+                  try {
+                    const summary = JSON.parse(c.fields['Summary']);
+                    return summary.PolicyInformation.ProductPurchased;
+                  } catch (e) {
+                    return c.fields['Summary'].substring(0, 100) + '...';
+                  }
+                })()}
+              </td>
             </tr>
           ))}
         </tbody>
