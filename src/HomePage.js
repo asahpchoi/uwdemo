@@ -157,14 +157,14 @@ function HomePage({ isProduction }) {
     } catch (error) {
       console.error('Failed to get decision:', error);
     } finally {
-      setIsDecisionLoading(false);
+      //setIsDecisionLoading(false);
     }
   };
 
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-md-6">
           <ImageUploader
             selectedImage={selectedImage}
             imagePreview={imagePreview}
@@ -175,9 +175,8 @@ function HomePage({ isProduction }) {
             handleSubmit={handleSubmit}
           />
         </div>
-      </div>
-      <div className="row mt-5">
-        <div className="col-md-12">
+   
+        <div className="col-md-6">
           {airtableRecord ? (
             <AirtableRecordCard record={airtableRecord} variant="detail" getDecision={getDecision} isDecisionLoading={isDecisionLoading} />
           ) : (

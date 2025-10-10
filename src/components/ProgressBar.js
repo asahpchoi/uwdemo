@@ -4,7 +4,7 @@ const ProgressBar = () => {
   return (
     <div className="progress">
       <div
-        className="progress-bar progress-bar-striped progress-bar-animated"
+        className="progress-bar progress-bar-striped progress-bar-animated bg-primary"
         role="progressbar"
         aria-valuenow="100"
         aria-valuemin="0"

@@ -35,20 +35,22 @@ const AirtableRecordCard = ({ record, variant = 'detail', getDecision, isDecisio
   };
 
   return (
-    <div className="airtable-record-grid">
-      <div className="grid-item card p-4">
+    <div className="d-flex flex-column">
+      <div className="card p-4 mb-3 shadow-sm border">
         <strong>Summary:</strong>
         {renderSummary()}
       </div>
-      {fields['Summary'] && <div className="grid-item card p-4">
-        <strong>Suggestive Decision:</strong>
-                {getDecision && !fields['Decision'] && (
-          <button onClick={getDecision} className="btn btn-primary">
-            Get Decision
-          </button>
-        )}
-        {renderDecisionNotes()}
-      </div>}
+      {fields['Summary'] && (
+        <div className="card p-4 shadow-sm border">
+          <strong>Suggestive Decision:</strong>
+          {getDecision && !fields['Decision'] && (
+            <button onClick={getDecision} className="btn btn-primary">
+              Get Decision
+            </button>
+          )}
+          {renderDecisionNotes()}
+        </div>
+      )}
     </div>
   );
 };

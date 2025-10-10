@@ -7,7 +7,7 @@ import Layout from './components/Layout';
 import './App.css';
 
 function App() {
-  const [isProduction, setIsProduction] = useState(false);
+  const [isProduction, setIsProduction] = useState(true);
   const toggleEnv = () => setIsProduction(prev => !prev);
 
   return (

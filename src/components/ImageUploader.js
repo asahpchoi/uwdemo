@@ -10,7 +10,7 @@ const ImageUploader = ({
   handleSubmit,
 }) => (
   <div className="card p-4">
-    <h2 className="card-title mb-4">Upload or Take a Photo</h2>
+    <h2 className="text-center">Upload a document to start</h2>
     <div className="d-flex flex-column align-items-center">
       <input
         type="file"
@@ -27,7 +27,7 @@ const ImageUploader = ({
     </div>
     {selectedImage && (
       <div className="d-grid gap-2 mt-3">
-        <button onClick={handleSubmit} className="btn btn-success" disabled={uploadStatus === 'uploading'}>
+        <button onClick={handleSubmit} className="btn btn-primary" disabled={uploadStatus === 'uploading'}>
           {uploadStatus === 'uploading' ? 'Uploading...' : 'Extract and Summerize'}
         </button>
       </div>

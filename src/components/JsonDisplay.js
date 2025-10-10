@@ -26,7 +26,7 @@ const JsonDisplay = ({ json }) => {
         <ul className="list-group list-group-flush">
           {Object.entries(json).map(([key, value]) => (
             <li key={key} className="list-group-item">
-              <span className="fw-bold">{key}:</span> {renderValue(value)}
+              <strong>{key}:</strong> <span className="text-secondary">{renderValue(value)}</span>
             </li>
           ))}
         </ul>

@@ -15,7 +15,7 @@ const CaseDetailPage = ({ isProduction }) => {
 
   return (
     <div className="container">
-      <h1>Case Details</h1>
+      <h1 className="text-primary">Case Details</h1>
       <AirtableRecordCard record={caseItem} variant="detail" />
     </div>
   );

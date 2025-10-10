@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = ({ isProduction, toggleEnv }) => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav className="navbar navbar-expand-lg navbar-light">
     <div className="container-fluid">
       <Link className="navbar-brand" to="/">Underwriting Demo</Link>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,7 +14,7 @@ const Header = ({ isProduction, toggleEnv }) => (
             <Link className="nav-link" to="/cases">Case List</Link>
           </li>
         </ul>
-        <div className="form-check form-switch text-light">
+        <div className="form-check form-switch text-dark">
           <input
             className="form-check-input"
             type="checkbox"
